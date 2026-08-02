@@ -2,8 +2,9 @@
 
 **Consult every frontier model you already pay for — without a single API key.**
 
-A [Claude Code](https://claude.com/claude-code) skill implementing the *manual
-multi-model consult loop*: your agent composes ONE self-contained,
+An agent skill (Claude Code, Codex CLI, Gemini CLI, OpenCode — anything that
+reads the [Agent Skills](https://agentskills.io) `SKILL.md` format) implementing
+the *manual multi-model consult loop*: your agent composes ONE self-contained,
 privacy-scrubbed research prompt; you paste it into 2–4 deep-research chatbot
 UIs (Perplexity, Gemini, Grok, ChatGPT, DeepSeek, Qwen…); a clipboard collector
 captures each answer byte-exact; the agent then **fact-checks every
@@ -36,19 +37,26 @@ before it reaches the synthesis.
 
 ## Install
 
-As a plugin:
+Clone once, link everywhere:
+
+```bash
+git clone https://github.com/pacewicz/paste-around
+cd paste-around && ./install.sh          # symlinks into ~/.claude/skills, ~/.codex/skills, ~/.gemini/skills
+                                         # ./install.sh --copy if symlinks don't suit you
+```
+
+Claude Code plugin route instead:
 
 ```
 /plugin marketplace add pacewicz/paste-around
 /plugin install paste-around@paste-around-marketplace
 ```
 
-Or plain clone:
+Project-scoped agents (OpenCode, Gemini workspace mode) discover
+`.agents/skills/` in a checked-out repo directly — no install step.
 
-```bash
-git clone https://github.com/pacewicz/paste-around ~/.claude/skills/paste-around-repo
-ln -s ~/.claude/skills/paste-around-repo/skills/paste-around ~/.claude/skills/paste-around
-```
+The canonical skill lives at `.agents/skills/paste-around/`; the top-level
+`skills/` symlink exists for the Claude Code plugin format.
 
 ## Use
 

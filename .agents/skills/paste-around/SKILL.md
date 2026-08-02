@@ -24,10 +24,13 @@ browser UIs. The human is the transport layer. That step is deliberately manual;
 everything around it (compose, verify, synthesize) is yours.
 
 Local agents count as engines too: when composing, also consider spawning a
-sonnet web-research subagent and/or `codex exec --skip-git-repo-check --sandbox
-read-only -c tools.web_search=true "<question>"` in the background — in the
-first live run, the locals found the best prior art that all five consumer
-engines missed. Their results enter the same synthesis as equal rows.
+web-capable research subagent (whatever your harness offers — pin a cheap
+model for grunt search) and/or a second local CLI agent from a different
+vendor (e.g. from Claude Code: `codex exec --skip-git-repo-check --sandbox
+read-only -c tools.web_search=true "<question>"`; from Codex: `claude -p
+"<question>"`) — in the first live run, the locals found the best prior art
+that all five consumer engines missed. Their results enter the same synthesis
+as equal rows.
 
 ## Phase 1 — Compose
 
@@ -124,7 +127,9 @@ the operator when a graphical session is available; on SSH-only sessions skip
 it and hand over paths as text.
 
 `scripts/collect.sh <consult-dir> <expected-count> [timeout-min]` — run as a
-BACKGROUND Bash task after dispatch; polls the clipboard and saves every new
+background task after dispatch (if your harness lacks background tasks with
+completion notifications, tell the operator to run it in a terminal and come
+back when it exits); polls the clipboard and saves every new
 substantial copy as `resp-NN` in the consult dir, byte-exact. Operator's whole
 return path becomes: copy each response in the browser (response copy-button
 preferred over ctrl+a — less UI chrome), done. Ignores the prompt, <500-byte
@@ -199,7 +204,7 @@ sources: <count>
 # <Topic> — Synthesis
 
 ## Source Reports
-- [<engine>, <mode/search status>] <path>   # locals (subagents, codex) listed identically
+- [<engine>, <mode/search status>] <path>   # locals (subagents, CLI agents) listed identically
 - [Original prompt] <path>
 
 ## Headline Findings
