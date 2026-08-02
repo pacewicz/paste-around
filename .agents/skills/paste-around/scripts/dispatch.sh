@@ -22,7 +22,7 @@ declare -A HINT=(
   [chatgpt]="enable Deep Research mode"
   [grok]="enable DeepSearch, NOT standard mode"
   [deepseek]="check web-search toggle is ON"
-  [qwen]="check web-search toggle is ON; citations untrusted until verified"
+  [qwen]="check web-search toggle is ON"
 )
 
 DIR="${1:?usage: dispatch.sh <consult-dir> <engine> [engine...]}"

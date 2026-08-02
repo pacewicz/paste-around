@@ -103,8 +103,8 @@ Engine selection is by **index diversity**, not count — returns diminish after
 | Gemini Deep Research | Google index, YouTube, Scholar | enable Deep Research (browser product, not CLI) |
 | Grok DeepSearch | X-freshness — hobby tools announced there first; skip if question has no recency/social component | enable DeepSearch, NOT standard mode |
 | ChatGPT Deep Research | depth/reasoning; skip if an OpenAI brain (codex) is already in the loop | enable Deep Research mode |
-| DeepSeek | different corpus incl. Chinese ecosystem; strongest honest epistemics observed #2026-08-01 | enable web search — check the toggle |
-| Qwen | marginal; observed fabricating sources even with search "enabled" #2026-08-01 — never trust unverified | enable web search — check the toggle |
+| DeepSeek | different corpus incl. Chinese ecosystem | enable web search — check the toggle |
+| Qwen | different corpus; lower citation reliability observed in early runs — verification phase covers it | enable web search — check the toggle |
 
 Always remind: **check the web-search/deep-research toggle is actually ON** —
 a memory-only answer from a search-capable engine is worse than no answer, and
