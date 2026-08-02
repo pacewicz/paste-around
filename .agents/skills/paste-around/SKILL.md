@@ -94,6 +94,11 @@ design, not meta-prompts — "don't hallucinate" is ignored, structure is not.
 ### Hand-off output (terminal, not file)
 
 Tell the operator: file path, which engines to use and why, and per-engine hints.
+
+**The roster is the operator's.** If `~/.config/paste-around/engines.conf`
+exists (format: `name|url|hint` per line), it replaces the table below
+entirely — recommend from THAT roster, and never push an engine the operator
+removed. The table below is the no-config fallback and a starting point.
 Engine selection is by **index diversity**, not count — returns diminish after
 2-3 engines because indexes overlap, not because models are similar:
 

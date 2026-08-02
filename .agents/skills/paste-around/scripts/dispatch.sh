@@ -25,6 +25,19 @@ declare -A HINT=(
   [qwen]="check web-search toggle is ON"
 )
 
+# Operator roster override: ~/.config/paste-around/engines.conf  #2026-08-02
+# One engine per line:   name|url|hint
+# If the file exists it REPLACES the built-in roster above (curate additions
+# and removals in one place; built-ins are only the no-config fallback).
+CONF="${PASTE_AROUND_ENGINES:-$HOME/.config/paste-around/engines.conf}"
+if [[ -f "$CONF" ]]; then
+  unset URL HINT; declare -A URL HINT
+  while IFS='|' read -r n u h; do
+    [[ -z "$n" || "$n" == \#* ]] && continue
+    URL[$n]="$u"; HINT[$n]="${h:-no hint}"
+  done < "$CONF"
+fi
+
 DIR="${1:?usage: dispatch.sh <consult-dir> <engine> [engine...]}"
 shift
 PROMPT="$DIR/00-prompt.md"
