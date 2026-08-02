@@ -1,0 +1,13 @@
+{
+  "name": "paste-around",
+  "version": "1.0.0",
+  "description": "Manual multi-model consult loop: your agent composes one privacy-scrubbed research prompt, you paste it into the deep-research chatbots you already pay for, a clipboard collector captures the answers byte-exact, and the agent fact-checks and synthesizes them into a convergence verdict. No API keys.",
+  "author": {
+    "name": "Patryk Acewicz-Hepfner",
+    "email": "patryk.acewicz@gmail.com"
+  },
+  "homepage": "https://github.com/pacewicz/paste-around",
+  "repository": "https://github.com/pacewicz/paste-around",
+  "license": "MIT",
+  "keywords": ["research", "deep-research", "multi-model", "second-opinion", "skill"]
+}

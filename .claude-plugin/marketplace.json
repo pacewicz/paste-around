@@ -1,0 +1,13 @@
+{
+  "name": "paste-around-marketplace",
+  "owner": {
+    "name": "Patryk Acewicz-Hepfner"
+  },
+  "plugins": [
+    {
+      "name": "paste-around",
+      "source": "./",
+      "description": "Manual multi-model consult loop — compose once, paste into the chatbots you already pay for, auto-collect, verify, synthesize. No API keys."
+    }
+  ]
+}
