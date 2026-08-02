@@ -118,7 +118,14 @@ Response return path, tell the operator both:
   pasted text has to be regenerated token-by-token to reach disk (drift +
   double cost on 10k-word reports); files are byte-exact.
 
-### Tier-1 helpers (X11 session with browser — offer, don't force)
+### Tier-1 helpers (OPTIONAL — currently Linux/X11 only)
+
+The skill's core loop is platform-agnostic: compose, manual paste, save files,
+ingest, verify, synthesize all work anywhere. The helper scripts below only
+remove friction, and currently assume X11 (`xclip`, `xdg-open`). On Windows,
+macOS, or headless/SSH sessions: skip them, hand the operator the prompt path
+and consult dir as text, and let them save responses manually — nothing else
+changes.
 
 `scripts/dispatch.sh <consult-dir> <engine...>` — loads the prompt into the
 clipboard and opens the chosen portals as browser tabs with per-engine hints.

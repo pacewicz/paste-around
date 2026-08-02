@@ -87,10 +87,12 @@ after 2–3 engines because the indexes overlap, not because the models agree.
 
 ## Requirements
 
-- Claude Code with skills support
-- Linux/X11 for the dispatch/collect helpers (`xclip`, `xdg-open`);
-  the compose/ingest/verify/synthesize core is platform-agnostic
+- An agent that reads `SKILL.md` (Claude Code, Codex CLI, Gemini CLI, OpenCode…)
 - Consumer accounts on whichever deep-research portals you like
+- The core loop runs on any OS. The optional dispatch/collect helper scripts
+  are currently Linux/X11 (`xclip`, `xdg-open`) — on Windows/macOS just save
+  responses into the consult dir manually; ports welcome (`pbcopy`/`pbpaste`
+  and `Get-Clipboard` make them small)
 
 ## Prior art
 
