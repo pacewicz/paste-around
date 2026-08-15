@@ -22,5 +22,5 @@ place "${CODEX_HOME:-$HOME/.codex}/skills"       # Codex CLI (user)
 [[ -d "$HOME/.gemini" ]] && place "$HOME/.gemini/skills" || echo "skip  ~/.gemini (not present)"
 
 echo
-echo "Project-scoped agents (OpenCode, Gemini workspace) discover .agents/skills/ directly."
+echo "Project-scoped agents (OpenCode, Gemini workspace) read .agents/skills/ in the repo."
 echo "Restart running agent sessions to pick up the skill."
