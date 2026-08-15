@@ -21,7 +21,12 @@ toast(){ command -v notify-send >/dev/null && notify-send "paste-around" "$1" ||
 
 declare -A SEEN
 SEEN[$(sum "$(cat "$DIR/00-prompt.md" 2>/dev/null)")]=prompt
-SEEN[$(sum "$(clip)")]=baseline   # whatever is in the clipboard at start
+# NOTE: do NOT blanket-blacklist the startup clipboard.  #2026-08-04 baseline-swallow fix
+# Operators routinely copy the first engine response BEFORE starting the
+# collector; hashing that as "baseline" ignored it forever, and re-copying the
+# same text produced the same hash, so it could never be recovered. Substantial
+# non-prompt content present at start is now captured below like any response.
+STARTCLIP="$(clip)"
 # already-saved responses: never overwrite, never re-save same content  #2026-08-01 resume fix
 N=0
 for f in "$DIR"/resp-*; do
@@ -31,6 +36,12 @@ for f in "$DIR"/resp-*; do
   (( 10#$num > N )) && N=$((10#$num))
 done
 echo "Collecting: copy each response in the browser (ctrl+a ctrl+c). $WANT expected, ${TIMEOUT_MIN}min timeout."
+# startup clipboard: report it so the operator knows whether it counted  #2026-08-04
+if [[ -n "$STARTCLIP" && ${#STARTCLIP} -ge 500 && -z "${SEEN[$(sum "$STARTCLIP")]:-}" ]]; then
+  echo "  startup clipboard: ${#STARTCLIP} bytes of non-prompt text, capturing as a response."
+elif [[ -n "$STARTCLIP" ]]; then
+  echo "  startup clipboard: ${#STARTCLIP} bytes, prompt or under 500B, ignored."
+fi
 while :; do
   C="$(clip)"
   if [[ -n "$C" && ${#C} -ge 500 ]]; then
