@@ -27,10 +27,17 @@ Local agents count as engines too: when composing, also consider spawning a
 web-capable research subagent (whatever your harness offers — pin a cheap
 model for grunt search) and/or a second local CLI agent from a different
 vendor (e.g. from Claude Code: `codex exec --skip-git-repo-check --sandbox
-read-only -c tools.web_search=true "<question>"`; from Codex: `claude -p
+read-only -c tools.web_search=true "<question>" </dev/null`; from Codex: `claude -p
 "<question>"`) — in the first live run, the locals found the best prior art
 that all five consumer engines missed. Their results enter the same synthesis
 as equal rows.
+
+**ALWAYS redirect `codex exec` stdin from `</dev/null`** (or a file), even with the
+prompt as a positional arg. `codex exec` reads stdin regardless ("Reading additional
+input from stdin..."); when backgrounded, inherited stdin is intermittently left open
+with no EOF and codex blocks FOREVER (0 bytes out, no session banner) until killed —
+observed 2026-09-17, one run hung 15 min while two identical foreground-EOF runs
+finished. `</dev/null` removes the dependency; live-fire verified (5.7s vs hang).
 
 ## Phase 1 — Compose
 
