@@ -48,7 +48,11 @@ for e in "$@"; do
   [[ -n "${URL[$e]:-}" ]] || { echo "ERROR: unknown engine '$e' (${!URL[*]})" >&2; exit 1; }
 done
 
-xclip -selection clipboard < "$PROMPT"
+# setsid: xclip owns the X selection only while alive, and an agent shell kills
+# its process group on exit — plain backgrounding leaves the operator with an
+# empty clipboard. Live-fired 2026-09-10.  #2026-09-10 empty-clipboard fix
+setsid nohup xclip -selection clipboard -i "$PROMPT" >/dev/null 2>&1 </dev/null &
+sleep 0.3
 echo "Prompt in clipboard ($(wc -c < "$PROMPT") bytes)."
 xdg-open "$DIR" >/dev/null 2>&1 &   # consult dir in file manager = save target  #2026-08-01
 echo

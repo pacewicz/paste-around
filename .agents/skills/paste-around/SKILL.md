@@ -150,16 +150,49 @@ unrelated large text while it runs. Exits 0 when all expected responses are in.
 
 `scripts/watch.sh <consult-dir> <expected-count> [timeout-min]` — same
 completion contract but watches for files appearing by any route (manual
-save/export, drag-drop) instead of the clipboard. Use collect.sh when the
-operator copies responses, watch.sh when they save files; either one's
+save/export, drag-drop) instead of the clipboard. #2026-09-15 DEFAULT: after every dispatch, launch
+collect.sh AND watch.sh together — do NOT choose between them. The clipboard
+route (collect.sh) is the PRIMARY return path for this operator and kept getting
+dropped whenever the agent guessed "files" and ran only watch.sh; running BOTH
+covers copy AND save with zero judgment call. This is an operator-ordered durable
+fix after the identical clipboard-not-captured mistake recurred across sessions —
+treat "which capturer?" as already answered: both, always. Either script's
 background-task completion notification is your cue to start ingest without
-the operator having to say "results are in". Count only engines actually
-dispatched; timeout default 90 min (deep-research runs take 2-45 min each).
-The send step stays human on purpose — automating consumer chat UIs violates
-their ToS and risks bans on paid accounts.
+the operator having to say "results are in". Timeout default 90 min
+(deep-research runs take 2-45 min each). The send step stays human on
+purpose — automating consumer chat UIs violates their ToS and risks bans on
+paid accounts.
+
+**Never block the hand-off turn on an `<expected-count>` question.** The
+operator has just been told to go paste into N tabs — that's the moment they
+start copying responses, including via `1min` where the model count isn't
+knowable in advance. Stopping to ask "how many?" costs a live clipboard paste
+(observed: an operator's answer to that question silently overwrote the
+response they'd just copied, and they had to re-run the model). `expected-count`
+is only a guessed upper bound for the script's own housekeeping — it is NOT
+the real completion signal and NOT a gate on when you're allowed to ingest.
+Pick a generous fixed default in the same turn as dispatch, without asking —
+`dispatched-engine-count + 6` covers ordinary rosters, or a flat `10` when
+`1min` (multi-model, uncounted) is in the mix — and start the watcher
+immediately, same turn as dispatch.
+
+**The real completion signal is the marker file, not the count.** Both
+scripts drop `DELETE-THIS-FILE-WHEN-DONE-PASTING` in the consult dir at
+startup and check every poll whether it's still there. The operator deletes
+it themselves, whenever THEY decide they're done pasting responses in —
+independent of how many that turned out to be. Tell them about it in the
+same hand-off message as the file path and engine list, e.g. "delete the
+DELETE-THIS-FILE-WHEN-DONE-PASTING file in the consult dir when you're done
+pasting." Count and timeout still exist as backstops (so the task doesn't
+run forever if the operator forgets), but the marker is what you actually
+expect to fire in the normal case. If the operator instead just tells you
+in chat that results are in, ingest right then regardless of watcher state;
+kill the background task first (`TaskStop` or equivalent) so it doesn't
+file a late response into an already-synthesized dir.
 
 With the watcher running you have not exited, but the no-polling rule stands:
-the watcher does the waiting, you do nothing until its notification.
+the watcher does the waiting, you do nothing until its notification or the
+operator tells you they're done.
 
 ## Phase 2 — Ingest
 
